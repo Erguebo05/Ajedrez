@@ -1,0 +1,55 @@
+const pieces = {
+    '♖': 'white', '♘': 'white', '♗': 'white', '♕': 'white', '♔': 'white', '♙': 'white',
+    '♖': 'black', '♘': 'black', '♗': 'black', '♕': 'black', '♔': 'black', '♙': 'black',
+};
+
+let currentTurn;
+
+function startGame(color) {
+    document.getElementById('selector').classList.add('hidden');
+    document.getElementById('chessboard').classList.remove('hidden');
+    currentTurn = color === 'blanco' ? 'white' : 'black';
+    createBoard();
+}
+
+function createBoard() {
+    const chessboard = document.getElementById('chessboard');
+    chessboard.innerHTML = '';
+
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+            const square = document.createElement('div');
+            square.className = 'square ' + ((row + col) % 2 === 0 ? 'white' : 'black');
+            square.dataset.row = row;
+            square.dataset.col = col;
+
+            if (row === 0) {
+                square.innerHTML = getPiece(row, col, 'black');
+            } else if (row === 1) {
+                square.innerHTML = '♙'; // Peones negros
+            } else if (row === 6) {
+                square.innerHTML = '♟'; // Peones blancos
+            } else if (row === 7) {
+                square.innerHTML = getPiece(row, col, 'white');
+            }
+
+            square.addEventListener('click', () => handleSquareClick(square));
+            chessboard.appendChild(square);
+        }
+    }
+}
+
+function getPiece(row, col, color) {
+    const piecesRow = {
+        0: ['♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'],
+        7: ['♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜']
+    };
+    return piecesRow[row] ? piecesRow[row][col] : '';
+}
+
+function handleSquareClick(square) {
+    if (square.innerHTML) {
+        // Lógica para mover piezas
+        alert(`Has seleccionado la pieza: ${square.innerHTML}`);
+    }
+}
